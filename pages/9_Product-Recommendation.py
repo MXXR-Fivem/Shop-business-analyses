@@ -3,8 +3,9 @@ import streamlit as st
 
 from data_loader import aisles, departments, order_product, products
 
-st.header('Product Recommendation')
+order_product = order_product.sample(n=2_000_000, random_state=42)
 
+st.header('Product Recommendation')
 
 @st.cache_data
 def build_products_with_aisles_and_departments() -> pd.DataFrame:
@@ -17,7 +18,6 @@ def build_products_with_aisles_and_departments() -> pd.DataFrame:
     )
 
     return products_with_aisles_and_departments
-
 
 @st.cache_data
 def build_orders_products_with_full_product_information() -> pd.DataFrame:
@@ -35,13 +35,11 @@ def build_orders_products_with_full_product_information() -> pd.DataFrame:
 
     return orders_products_with_full_product_information
 
-
 # DATA PREPARATION
 
 orders_products_with_full_product_information = (
     build_orders_products_with_full_product_information()
 )
-
 
 @st.cache_data
 def get_best_sellers() -> object:
@@ -145,7 +143,6 @@ def get_reco_product(
         reco.extend(reco_global_head['product_name'].to_list())
 
     return reco
-
 
 # STREAMLIT INTERFACE
 
