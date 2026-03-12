@@ -5,10 +5,10 @@ st.header('Project Overview')
 
 col1, col2, col3, col4, col5, col6 = st.columns(6)
 
-col1.metric('Total Orders', f'{orders.shape[0]} 📈')
-col4.metric('Total ordered products', f'{order_product.shape[0]}📈')
-col2.metric('Total Users', f'{orders['user_id'].nunique()} 📈')
-col3.metric('Total Products', f'{products.shape[0]} 📉')
+col1.metric('Total Orders', f'{orders.shape[0]} 🟢')
+col4.metric('Total ordered products', f'{order_product.shape[0]} 🟢')
+col2.metric('Total Users', f'{orders['user_id'].nunique()} 🟢')
+col3.metric('Total Products', f'{products.shape[0]} 🟠')
 col5.metric('Aisles', aisles.shape[0])
 col6.metric('Departments', departments.shape[0])
 
