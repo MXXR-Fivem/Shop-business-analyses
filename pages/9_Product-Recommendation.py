@@ -5,24 +5,42 @@ from data_loader import aisles, departments, order_product, products
 
 st.header('Product Recommendation')
 
+@st.cache_data
+def build_products_with_aisles_and_departments() -> pd.DataFrame:
+    # Merge products with aisles using the 'aisle_id' key
+    products_with_aisles = pd.merge(products, aisles, on='aisle_id')
+
+    # Then add departments by merging using 'department_id'
+    products_with_aisles_and_departments = products_with_aisles.merge(
+        departments, on='department_id'
+    )
+
+    return products_with_aisles_and_departments
+
+
+@st.cache_data
+def build_orders_products_with_full_product_information() -> pd.DataFrame:
+    products_with_aisles_and_departments = build_products_with_aisles_and_departments()
+
+    # Finally merge order products with all product information
+    # This allows us to have in a single DataFrame:
+    # - the order
+    # - the product
+    # - the aisle
+    # - the department
+    orders_products_with_full_product_information = order_product.merge(
+        products_with_aisles_and_departments, on='product_id'
+    )
+
+    return orders_products_with_full_product_information
+
 # DATA PREPARATION
 
-# Merge products with aisles using the 'aisle_id' key
-products_with_aisles = pd.merge(products, aisles, on='aisle_id')
-
-# Then add departments by merging using 'department_id'
-products_with_aisles_and_departments = products_with_aisles.merge(departments, on='department_id')
-
-# Finally merge order products with all product information
-# This allows us to have in a single DataFrame:
-# - the order
-# - the product
-# - the aisle
-# - the department
-orders_products_with_full_product_information = order_product.merge(
-    products_with_aisles_and_departments, on='product_id'
+orders_products_with_full_product_information = (
+    build_orders_products_with_full_product_information()
 )
 
+@st.cache_data
 def get_best_sellers() -> object:
     """
     Returns the best-selling products of the store.
@@ -49,6 +67,7 @@ def get_best_sellers() -> object:
     return counts_df
 
 
+@st.cache_data
 def get_reco_product(
     product_name: str, n: int = 3, percent: int | float | None = None
 ) -> list[str]:
@@ -102,7 +121,7 @@ def get_reco_product(
     )
 
     # Keep only the top n products
-    reco_global_head = reco_global.head(n)
+    reco_global_head = reco_global.head(n).copy()
 
     # OPTIONAL PERCENTAGE FILTER
 
