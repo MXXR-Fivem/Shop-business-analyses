@@ -5,6 +5,7 @@ from data_loader import aisles, departments, order_product, products
 
 st.header('Product Recommendation')
 
+
 @st.cache_data
 def build_products_with_aisles_and_departments() -> pd.DataFrame:
     # Merge products with aisles using the 'aisle_id' key
@@ -34,11 +35,13 @@ def build_orders_products_with_full_product_information() -> pd.DataFrame:
 
     return orders_products_with_full_product_information
 
+
 # DATA PREPARATION
 
 orders_products_with_full_product_information = (
     build_orders_products_with_full_product_information()
 )
+
 
 @st.cache_data
 def get_best_sellers() -> object:
