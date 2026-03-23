@@ -43,7 +43,7 @@ Théo Busiris :
 
 1. Clone the repo and go into the folder : 
 ```bash
-git clone git@github.com:EpitechBachelorPromo2028/B-DAT-201-PAR-2-1-nextbuy-20.git
+git clone git@github.com:MXXR-Fivem/Shop-business-analyses.git
 cd B-DAT-200-PAR-2-1-tardis-4.git
 ```
 
